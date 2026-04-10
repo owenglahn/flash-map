@@ -1,12 +1,16 @@
 import "./App.css";
-import FlashPage from "./FlashPage";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import FlashPage from "./components/FlashPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <FlashPage />
-      </header>
+    <div className="wrapper">
+      <h1>Application</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/flashsheet" element={<FlashPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
