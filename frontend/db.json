@@ -24,5 +24,8 @@
         "images":["sheet1.jpg", "sheet2.jpg"]
     }
   ],
+  "auth": {
+    "token": "test_token"
+  },
   "$schema": "./node_modules/json-server/schema.json"
 }
