@@ -1,14 +1,26 @@
-import express from 'express';
-import coordinateRouter from './routes/coordinate.routes.js';
-import imageRouter from './routes/image.routes.js';
-import userRouter from './routes/user.routes.js';
-import sequelize from './config/database.js';
+import coordinateRouter from './routes/coordinate.routes';
+import imageRouter from './routes/image.routes';
+import userRouter from './routes/user.routes';
+import sequelize from './config/database';
+import express, { Request, Response} from 'express';
+import cors from 'cors';
+import session from 'express-session';
 
 const app = express();
+app.use(session({
+  secret: "mySecretKey",
+  resave: false,
+  saveUninitialized: false, // Only save sessions with initialized data
+  cookie: {
+    maxAge: 5 * 60_000,         // 5-minute session expiry
+  },
+}));
+app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.get('/', (_req, res) => {
+
+app.get('/', (_req: Request, res: Response) => {
   res.send('Hello, TypeScript with Node.js!');
 });
 
