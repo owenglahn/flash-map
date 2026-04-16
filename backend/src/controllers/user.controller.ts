@@ -4,11 +4,10 @@ import User from "../models/User";
 
 export async function createUser(req: Request, res: Response) {
     try {
-        const salt: string = await bcrypt.genSalt();
         const userData = {
             username: req.body.username,
             email: req.body.email, 
-            password: await bcrypt.hash(req.body.password, salt)
+            password: await bcrypt.hash(req.body.password, 10)
         }
         const user = await User.create(userData);
         res.status(201).json(user);
