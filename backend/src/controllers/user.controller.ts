@@ -10,6 +10,9 @@ export async function createUser(req: Request, res: Response) {
             password: await bcrypt.hash(req.body.password, 10)
         }
         const user = await User.create(userData);
+        if (!user) {
+            res.status(500).send("Error creating user.");
+        }
         res.status(201).json(user);
     } catch(error) {
         if (error instanceof Error) {
@@ -41,7 +44,16 @@ export async function getUser(req: Request, res: Response) {
         } else {
             res.status(400).json({error: "Unable to get user."}); 
         }
+    }
+}
 
+export async function getUsers(req: Request, res: Response) {
+    try {
+        const users = User.findAll();
+        const userNames = (await users).map((user) => user.get("username"));
+        res.status(200).json(userNames);
+    } catch(error) {
+        res.status(500).json({error: `Unable to get users.\n${error}`})
     }
 }
 

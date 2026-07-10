@@ -1,6 +1,7 @@
 import coordinateRouter from './routes/coordinate.routes';
 import imageRouter from './routes/image.routes';
 import userRouter from './routes/user.routes';
+import authRouter from './routes/auth.routes';
 import sequelize from './config/database';
 import express, { Request, Response} from 'express';
 import cors from 'cors';
@@ -27,6 +28,7 @@ app.get('/', (_req: Request, res: Response) => {
 app.use("/api/coordinates", coordinateRouter);
 app.use("/api/images", imageRouter);
 app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 
 sequelize.sync({ alter: true })
   .then(() => console.log("Database connected"))
