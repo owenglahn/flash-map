@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API_URL } from "../config";
+import UserSearch from "./UserSearch";
 
 function Home() {
     const [users, setUsers] = useState([]);
@@ -19,14 +20,13 @@ function Home() {
             <h1>
                 Flash Map!
             </h1>
-            <h2>
-                Tattoo Artists
-            </h2>
+
             {users.map((user) => <li><Link to={"/"}>{user}</Link></li>)} 
             <br />
             <Link to={'/flashsheet'}>
                 Flash sheet
             </Link>
+            <UserSearch />
         </div>
     );
 }

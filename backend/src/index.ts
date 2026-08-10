@@ -7,6 +7,8 @@ import express, { Request, Response} from 'express';
 import cors from 'cors';
 import session from 'express-session';
 
+require('dotenv').config();
+
 const app = express();
 app.use(session({
   secret: "mySecretKey",
