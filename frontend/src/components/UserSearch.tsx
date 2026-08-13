@@ -1,8 +1,9 @@
 import { ChangeEvent, useState } from "react";
 import { getSimilarUsers } from "../services/users";
+import { Link } from "react-router-dom";
 
 function UserSearch() {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<any[]>([]);
     const [key, setKey] = useState<string>('');
     async function search() {
         setUsers(await getSimilarUsers(key));
@@ -22,6 +23,14 @@ function UserSearch() {
                 }} />
                 <button type="submit">Search</button>
             </form>
+            {users.map((user) => {
+                console.log(user.username);
+                return (
+                    <div>
+                        <Link to="/flashsheet">{user.username}</Link><br></br> 
+                    </div>
+                );
+            })}
         </>
     );
 }

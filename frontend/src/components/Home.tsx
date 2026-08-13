@@ -20,8 +20,6 @@ function Home() {
             <h1>
                 Flash Map!
             </h1>
-
-            {users.map((user) => <li><Link to={"/"}>{user}</Link></li>)} 
             <br />
             <Link to={'/flashsheet'}>
                 Flash sheet
