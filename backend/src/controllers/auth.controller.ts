@@ -8,6 +8,7 @@ export async function login(req: Request, res: Response) {
         const user = await User.findByPk(req.body.username);
         if (!user) {
             //redirect to register
+            return;
         }
         const password = user.get('password');
         if (typeof password !== 'string') {
@@ -22,7 +23,7 @@ export async function login(req: Request, res: Response) {
             res.status(201).send({
                 username: user.get('username'),
                 email: user.get('email'),
-                token: jwt.sign(payload, process.env.JWT_SECRET) // generate token
+                // token: jwt.sign(payload, process.env.JWT_SECRET) // generate token
             })
         } else {
             res.status(400).send("Passwords do not match");

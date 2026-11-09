@@ -3,11 +3,14 @@ import { useParams } from "react-router-dom";
 
 function Profile() {
     const { username } = useParams();
+    if (!username) {
+        return (<></>);
+    }
     return (
         <>
             <h1>{username}</h1>
             <br />
-            <SheetGrid></SheetGrid>
+            <SheetGrid username={username}></SheetGrid>
         </>
     );
 }
