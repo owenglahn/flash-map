@@ -3,7 +3,7 @@ import { Sequelize } from "sequelize";
 const sequelize = new Sequelize(
   "flash-map-db",
   "owenglahn",
-  "Cosmosis7",
+  process.env.DB_PASSWORD,
   {
     host: "localhost",
     dialect: "postgres",

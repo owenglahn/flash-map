@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import User from "../models/User";
+import { Op } from 'sequelize';
 
 export async function createUser(req: Request, res: Response) {
     try {
@@ -10,6 +11,9 @@ export async function createUser(req: Request, res: Response) {
             password: await bcrypt.hash(req.body.password, 10)
         }
         const user = await User.create(userData);
+        if (!user) {
+            res.status(500).send("Error creating user.");
+        }
         res.status(201).json(user);
     } catch(error) {
         if (error instanceof Error) {
@@ -41,7 +45,34 @@ export async function getUser(req: Request, res: Response) {
         } else {
             res.status(400).json({error: "Unable to get user."}); 
         }
+    }
+}
 
+export async function getUsers(req: Request, res: Response) {
+    try {
+        const users = await User.findAll();
+        const userNames = (await users).map((user) => user.get("username"));
+        res.status(200).json(userNames);
+    } catch(error) {
+        res.status(500).json({error: `Unable to get users.\n${error}`})
+    }
+}
+
+export async function searchUsers(req: Request, res: Response) {
+    try {
+        const key = req.params.key;
+        const userNames = await User.findAll({
+            attributes: ['username'],
+            where: {
+                username: {
+                    [Op.like]: `%${key}%`
+                }
+            }
+        })
+        console.log(userNames);
+        res.status(200).json(userNames);
+    } catch (error) {
+        res.status(500).json({error: `Unable to search users.\n${error}`})
     }
 }
 
