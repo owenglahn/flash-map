@@ -27,7 +27,7 @@ function UserSearch() {
                 console.log(user.username);
                 return (
                     <div>
-                        <Link to="/flashsheet">{user.username}</Link><br></br> 
+                        <Link to={`/users/${user.username}`}>{user.username}</Link><br></br> 
                     </div>
                 );
             })}

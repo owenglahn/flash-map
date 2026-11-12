@@ -35,7 +35,9 @@ export async function getUser(req: Request, res: Response) {
                     email: user.get("email")
                 }
                 res.status(200).json(userWithoutPW);
-            } 
+            } else {
+                throw new Error(`User ${username} not found`);
+            }
         } else {
             throw new Error("Username param type error");
         }
