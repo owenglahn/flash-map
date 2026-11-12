@@ -7,13 +7,13 @@ type SheetGridProps = {
 
 function SheetGrid({ username }: SheetGridProps): ReactElement<SheetGridProps> {
     const [ imageSrcs, setImageSrcs ] = useState<string[]>([]);
-    useEffect(() => {
-        async function retrieveImages() {
-            const image_ids = await getFlashSheetIds(username);
-            setImageSrcs(await getFlashImages(image_ids))
-        }
-        retrieveImages();
-    });
+    // useEffect(() => {
+    //     async function retrieveImages() {
+    //         const image_ids = await getFlashSheetIds(username);
+    //         setImageSrcs(await getFlashImages(image_ids))
+    //     }
+    //     retrieveImages();
+    // });
     return (
         <>
             {imageSrcs.map((image) => {
