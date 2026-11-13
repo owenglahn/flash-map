@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import User from "../models/User";
 import { Op } from 'sequelize';
