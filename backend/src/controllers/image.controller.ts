@@ -36,7 +36,7 @@ export async function postImage(req: Request, res: Response) {
             ContentType: req.file.mimetype
         }));
         res.status(300).json(response);
-        // fs.unlink(req.file.path, () => console.log("Temp file deleted"));
+        fs.unlink(req.file.path, () => console.log("Temp file deleted"));
     } else if (typeof req.params.user_id !== "string") {
         res.status(400).json("User ID error");
     } else if (!req.file) {
