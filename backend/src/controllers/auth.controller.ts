@@ -41,7 +41,7 @@ export async function login(req: Request, res: Response) {
                 res.status(201).send({
                     username: user.get('username'),
                     email: user.get('email'),
-                    token: jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1hr"}) 
+                    token: jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1hr"})
                 });
                 return;
             } 
@@ -59,9 +59,28 @@ export async function login(req: Request, res: Response) {
 }
 
 export async function refreshToken(req: Request, res: Response) {
-    // TODO
+
 }
 
 export async function logout(req: Request, res: Response) {
     // TODO
+}
+
+export function verifyToken(req: Request, res: Response) {
+    const token = req.headers.authorization;
+    if (!token) {
+        res.status(403);
+        return ;
+    }
+    if (typeof process.env.JWT_SECRET === "string"){
+        jwt.verify(token, process.env.JWT_SECRET, (err) => {
+            if (err) {
+                res.status(403).json({error: err.message});
+                return;
+            }
+        });
+        res.status(200).json("Token verified");
+        return;
+    }
+    res.status(500).json({error: "JWT secret error"});
 }
