@@ -1,7 +1,7 @@
-import { API_URL } from "..";
+import { API_URL } from "../config";
 
 export function getUser(username: string) {
-    return fetch(`${API_URL}/users/${username}`);//.then(data => data.json());
+    return fetch(`${API_URL}/users/${username}`);
 }
 
 export function getSimilarUsers(key: string) {

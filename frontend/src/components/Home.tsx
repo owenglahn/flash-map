@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { API_URL } from "../config";
+import { HOST_URL } from "../config";
 import UserSearch from "./UserSearch";
 
 function Home() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch(`${API_URL}/users`)
+        fetch(`${HOST_URL}/users`)
         .then(response => response.json())
         .then(json => {
             console.log(`Users: ${json}`);
