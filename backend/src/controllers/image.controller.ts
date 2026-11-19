@@ -1,4 +1,4 @@
-import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, ListObjectsCommand, ListObjectsRequest$, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { Request, Response } from "express";
 import fs from "fs";
 
@@ -24,6 +24,28 @@ export async function getImage(req: Request, res: Response) {
         }
     } else {
         res.status(400).json("Error processing params");
+    }
+}
+
+export async function getImageKeys(req: Request, res: Response) {
+    class UserNameParamError extends Error {}
+    try {
+        if (typeof req.params.username !== "string") {
+            throw new UserNameParamError("Username formatting error");
+        }
+        const { Contents } = await S3.send(
+            new ListObjectsCommand({
+                Bucket: process.env.S3_BUCKET,
+                Prefix: req.params.username
+            })
+        );
+        res.status(200).send(Contents?.map(objectData =>  objectData.Key).slice(1));
+    } catch (error) {
+        if (error instanceof UserNameParamError) {
+            res.status(400).send("Error: Username param formatted incorrectly");
+        } else {
+            res.status(500).send(error);
+        }
     }
 }
 

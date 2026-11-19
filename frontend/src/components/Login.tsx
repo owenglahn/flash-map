@@ -1,11 +1,18 @@
 import {useForm} from "react-hook-form";
 import PropTypes from 'prop-types';
+import { postLogin } from "../services/auth";
+import { useContext } from "react";
+import {JWTToken} from "../App";
+import { useNavigate } from "react-router-dom";
 
 type TokenProps = {
     setToken: (token: string) => void;
 };
 
 function Login({ setToken }: TokenProps) {
+    const { jwtToken, setJwtToken } = useContext(JWTToken);
+    const navigate = useNavigate();
+
     type LoginFormInputs = {
         username: string;
         password: string;
@@ -16,7 +23,13 @@ function Login({ setToken }: TokenProps) {
         formState: {errors}
     } = useForm<LoginFormInputs>();
 
-    const onSubmit = () => {
+    const onSubmit = async (data: LoginFormInputs) => {
+        postLogin(data.username, data.password)
+        .then(data => data.json())
+        .then(data => {
+            setJwtToken(data.token);
+            navigate("/");
+        });
     };
     
     return(
@@ -24,7 +37,7 @@ function Login({ setToken }: TokenProps) {
             <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
                 <input
                     className="input-wrapper"
-                    type="username"
+                    type="text"
                     {...register("username", { required: true })}
                     placeholder="Username"
                 />

@@ -25,7 +25,7 @@ function Signup({ setToken }: TokenProps) {
         <div>
             <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
                 <input
-                    type="username"
+                    type="text"
                     {...register("username", { required: true })}
                     placeholder="Username"
                     className="input-wrapper"

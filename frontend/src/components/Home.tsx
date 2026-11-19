@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { API_URL } from "../config";
+import { HOST_URL } from "../config";
 import UserSearch from "./UserSearch";
+import { JWTToken } from "../App";
+import { LoginButton } from "./LoginButton";
 
 function Home() {
     const [users, setUsers] = useState([]);
+    const { jwtToken, setJwtToken } = useContext(JWTToken);
 
     useEffect(() => {
-        fetch(`${API_URL}/users`)
+        fetch(`${HOST_URL}/users`)
         .then(response => response.json())
         .then(json => {
             console.log(`Users: ${json}`);
@@ -25,6 +28,7 @@ function Home() {
                 Flash sheet
             </Link>
             <UserSearch />
+            <LoginButton />
         </div>
     );
 }

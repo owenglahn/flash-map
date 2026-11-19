@@ -1,14 +1,18 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { getSimilarUsers } from "../services/users";
 import { Link } from "react-router-dom";
 
 function UserSearch() {
     const [users, setUsers] = useState<any[]>([]);
     const [key, setKey] = useState<string>('');
-    async function search() {
-        setUsers(await getSimilarUsers(key));
-        console.log(users);
-    }
+    // replace await with loading -> show users
+    useEffect(() => {
+        if (!key) {
+            setUsers([]);
+            return;
+        }
+        getSimilarUsers(key).then(data => setUsers(data))
+    }, [key]);
     return (
         <>
             <form onSubmit={(e) => {
@@ -19,7 +23,6 @@ function UserSearch() {
             }}>
                 <input type="text" value={key} placeholder="Search Users" onChange={(e) => {
                     setKey(e.target.value);
-                    search();
                 }} />
                 <button type="submit">Search</button>
             </form>
@@ -30,7 +33,7 @@ function UserSearch() {
                         <Link to={`/users/${user.username}`}>{user.username}</Link><br></br> 
                     </div>
                 );
-            })}
+            })} 
         </>
     );
 }
